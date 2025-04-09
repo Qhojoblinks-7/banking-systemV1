@@ -40,3 +40,17 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.mobile-only-message-app {
+  background-color: #191744; /* Match your app's background */
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+  font-family: sans-serif;
+}

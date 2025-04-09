@@ -1,21 +1,27 @@
-/* AccountSummaryNew.css - Mobile First Styles */
+/* AccountSummary.css - Mobile First & Responsive - Full Container */
 
-/* Base styles for mobile */
+/* Base styles for mobile - Full Container */
 .account-summary-new-container {
     background-color: #191744;
-    min-height: calc(var(--vh, 1vh) * 100);
-    padding: 20px;
+    min-height: 100vh; /* Make it at least the height of the viewport */
+    height: 100vh; /* Ensure it always takes full viewport height */
+    padding-top: 5px; /* Keep some overall padding if desired */
+    width: 100%; /* Full width of the viewport */
+    max-width: 600px; /* Max width for larger phones */
+    /* Use max-width to ensure it doesn't stretch too wide on larger screens */
+    
+    margin: 0; /* Remove any margins on the container */
     box-sizing: border-box;
     font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: #fff;
     display: flex;
     flex-direction: column;
     -webkit-overflow-scrolling: touch;
-    overflow-y: auto;
+    font-size: 12px;
   }
   
   :root {
-    --vh: 100%;
+    --vh: 100vh; /* Use viewport height directly */
   }
   
   /* Top Navigation Bar */
@@ -23,8 +29,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
-    margin-bottom: 30px;
+    padding: 10px 15px; /* Adjust padding as needed */
+    margin-bottom: 10px; /* Adjust margin as needed */
+    max-width: 600px; /* Max width for larger phones */
+    margin: 0 auto; /* Center within the full container */
   }
   
   .user-info {
@@ -33,49 +41,56 @@
   }
   
   .profile-pic-placeholder {
-    width: 40px;
-    height: 40px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background-color: #4a3f87;
-    margin-right: 10px;
+    margin-right: 5px;
   }
   
   .greeting {
-    font-size: 1.1em;
+    font-size: 0.8em;
     color: #e0e0e0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .nav-icons {
     display: flex;
-    gap: 15px;
+    gap: 8px;
   }
   
   .icon-circle {
-    width: 35px;
-    height: 35px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     border: 1px solid #4a3f87;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #e0e0e0;
-    font-size: 1em;
+    font-size: 0.7em;
   }
   
   /* Balance Display */
   .balance-display {
     text-align: left;
-    margin-bottom: 40px;
+    margin-bottom: 12px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   
   .balance-label {
-    font-size: 0.9em;
+    font-size: 0.7em;
     color: #a7a2d1;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
   }
   
   .balance-amount {
-    font-size: 2.8em;
+    font-size: 1.8em;
     font-weight: bold;
     color: #fff;
   }
@@ -83,28 +98,32 @@
   /* Quick Actions */
   .quick-actions-new {
     display: flex;
-    gap: 15px;
-    margin-bottom: 40px;
+    gap: 8px;
+    margin-bottom: 12px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    max-width: 600px;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   
   .quick-action-button {
     background-color: #2e2959;
     color: #fff;
     border: none;
-    border-radius: 20px;
-    padding: 10px 15px;
+    border-radius: 10px;
+    padding: 6px 10px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.95em;
+    gap: 5px;
+    font-size: 0.7em;
     flex-shrink: 0;
     white-space: nowrap;
   }
   
   .quick-action-icon {
-    font-size: 1.2em;
+    font-size: 0.9em;
   }
   
   .quick-action-text {
@@ -115,66 +134,72 @@
   .smart-investing-banner {
     background: linear-gradient(135deg, #4a3f87 0%, #2e2959 100%);
     color: #fff;
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 30px;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 10px;
     position: relative;
     overflow: hidden;
+    max-width: 600px;
+    margin: 0 auto;
   }
   
   .sparkles {
-    font-size: 1.5em;
+    font-size: 0.8em;
     position: absolute;
     opacity: 0.7;
   }
   
   .sparkles:first-child {
-    top: 10px;
-    left: 10px;
+    top: 3px;
+    left: 3px;
   }
   
   .sparkles.right {
-    bottom: 10px;
-    right: 10px;
+    bottom: 3px;
+    right: 3px;
   }
   
   .banner-title {
-    font-size: 1.3em;
-    margin-bottom: 8px;
+    font-size: 0.9em;
+    margin-bottom: 2px;
     font-weight: bold;
   }
   
   .banner-subtitle {
-    font-size: 0.9em;
+    font-size: 0.6em;
     opacity: 0.8;
   }
   
   .close-banner {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 3px;
+    right: 3px;
     background: none;
     border: none;
     color: #fff;
-    font-size: 1.2em;
+    font-size: 0.8em;
     cursor: pointer;
     opacity: 0.6;
   }
   
-  /* Market Section (Repurposed for Transactions) */
+  /* Recent Transactions */
   .market-section {
-    margin-bottom: 70px;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   
   .market-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 6px;
   }
   
   .market-title {
-    font-size: 1.4em;
+    font-size: 1em;
     font-weight: bold;
     color: #fff;
     margin: 0;
@@ -182,7 +207,7 @@
   
   .view-all-link {
     color: #a7a2d1;
-    font-size: 0.9em;
+    font-size: 0.6em;
     text-decoration: none;
   }
   
@@ -195,7 +220,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
+    padding: 6px 0;
     border-bottom: 1px solid #2e2959;
   }
   
@@ -206,65 +231,70 @@
   .market-item-left {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 8px;
+    min-width: 0; /* Prevent content from overflowing */
   }
   
   .crypto-icon-bg {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 1.3em;
-  }
-  
-  .crypto-icon-bg.btc {
-    background-color: #f7931a;
-  }
-  
-  .crypto-icon-bg.eth {
-    background-color: #627eea;
-  }
-  
-  .crypto-icon-bg.transaction-icon {
-    background-color: transparent;
+    font-font-size: 0.8em;
+    flex-shrink: 0; /* Prevent icon from shrinking */
   }
   
   .crypto-icon-bg.transaction-icon svg {
-    font-size: 1.5em;
+    font-size: 1em;
   }
   
   .crypto-info {
     text-align: left;
+    min-width: 0; /* Allow inner content to shrink */
+    overflow: hidden;
   }
   
   .crypto-name {
-    font-weight: bold;
-    font-size: 1em;
+    font-size: 0.7em;
     color: #fff;
-    margin-bottom: 3px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .crypto-symbol {
-    font-size: 0.85em;
+    font-size: 0.55em;
     color: #a7a2d1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .market-item-right {
     text-align: right;
+    min-width: 0; /* Allow inner content to shrink */
   }
   
   .crypto-price {
-    font-weight: bold;
-    font-size: 1em;
+    font-size: 0.7em;
     color: #fff;
-    margin-bottom: 3px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .crypto-change {
-    font-size: 0.85em;
+    font-size: 0.55em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .crypto-change.green {
@@ -275,7 +305,7 @@
     color: #f44336;
   }
   
-  /* Bottom Navigation Bar */
+  /* Bottom Navigation Bar - Responsive - Full Container */
   .bottom-nav {
     background-color: #191744;
     position: fixed;
@@ -284,9 +314,11 @@
     right: 0;
     display: flex;
     justify-content: space-around;
-    padding: 10px 0 20px 0;
+    padding: 8px 0 12px 0; /* Adjust vertical padding */
     border-top: 1px solid #2e2959;
     z-index: 10;
+    max-width: 600px; /* Maintain max width */
+    margin: 0 auto;
   }
   
   .nav-item {
@@ -295,58 +327,113 @@
     align-items: center;
     color: #a7a2d1;
     text-decoration: none;
-    font-size: 0.8em;
+    font-size: 0.6em; /* Adjust font size */
+    flex-grow: 1;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .nav-icon {
-    font-size: 1.5em;
-    margin-bottom: 5px;
-  }
-  
-  .nav-item.active {
-    color: #fff;
-  }
-  
-  .nav-item.active .nav-icon {
-    color: #fff;
+    font-size: 1.2em; /* Adjust icon size */
+    margin-bottom: 2px;
   }
   
   .nav-item.active .nav-icon.active-bg {
     background-color: #ffc107;
     border-radius: 50%;
-    padding: 5px;
+    padding: 3px;
     color: #191744;
   }
   
-  .nav-item.active .nav-label {
-    color: #ffc107;
+  /* Media Queries for Responsiveness */
+  
+  /* Small phones */
+  @media (max-width: 375px) {
+    .top-nav .greeting {
+      font-size: 0.7em;
+    }
+    .balance-amount {
+      font-size: 1.6em;
+    }
+    .quick-action-button {
+      font-size: 0.6em;
+      padding: 4px 8px;
+    }
+    .market-title {
+      font-size: 0.9em;
+    }
+    .nav-item {
+      font-size: 0.5em;
+    }
+    .nav-icon {
+      font-size: 1em;
+    }
   }
   
-  /* Desktop Blocking Styles */
-@media (min-width: 768px) {
-    .account-summary-new-container {
-      display: none !important; /* Hide on desktop */
+  /* Larger phones (landscape) */
+  @media (min-width: 601px) and (max-width: 767px) {
+    .top-nav {
+      padding: 8px 15px;
     }
+    .balance-amount {
+      font-size: 2em;
+    }
+    .quick-action-button {
+      font-size: 0.8em;
+      padding: 8px 12px;
+    }
+    .market-title {
+      font-size: 1.1em;
+    }
+    .nav-item {
+      font-size: 0.7em;
+    }
+    .nav-icon {
+      font-size: 1.4em;
+    }
+  }
   
-    body {
-      background-color: #191744; /* Match background */
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      font-family: sans-serif;
-      text-align: center;
+  /* Extra Small Screens (Watch-like) */
+  @media (max-width: 320px) {
+    .top-nav {
+      padding: 3px 5px;
+      margin-bottom: 6px;
     }
+    .greeting {
+      font-size: 0.6em;
+    }
+    .balance-amount {
+      font-size: 1.4em;
+    }
+    .quick-action-button {
+      font-size: 0.5em;
+      padding: 3px 5px;
+    }
+    .market-title {
+      font-size: 0.8em;
+    }
+    .nav-item {
+      font-size: 0.4em;
+    }
+    .nav-icon {
+      font-size: 0.9em;
+    }
+  }
   
-    body::before {
-      content: "This application is designed for mobile devices only. Please access it on a smartphone.";
-      font-size: 1.5em;
-      padding: 20px;
-      border: 2px solid #fff;
-      border-radius: 10px;
-    }
+  /* Error and Loading states */
+  .account-summary-new-container.error {
+    color: #f44336;
+    text-align: center;
+    font-size: 0.8em;
+  }
+  
+  .account-summary-new-container.loading {
+    color: #fff;
+    text-align: center;
+    font-size: 1em;
+    padding-top: 20px;
   }
   
   /* Mobile-Only Message Style */
@@ -358,21 +445,7 @@
     align-items: center;
     min-height: 100vh;
     text-align: center;
-    padding: 20px;
-    font-size: 1.2em;
+    font-size: 1em;
     font-family: sans-serif;
-  }
-    .mobile-only-message::before {
-        content: "This application is designed for mobile devices only. Please access it on a smartphone.";
-        font-size: 1.5em;
-        padding: 20px;
-        border: 2px solid #fff;
-        border-radius: 10px;
-    }  
-  
-  /* Error and Loading states (can be within or outside media queries) */
-  .account-summary-new-container.error {
-    color: #f44336;
-    text-align: center;
-    padding: 20px;
+    margin: 0;
   }

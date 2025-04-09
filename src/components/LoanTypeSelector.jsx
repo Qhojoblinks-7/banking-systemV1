@@ -31,7 +31,6 @@ const LoanTypeSelector = ({ loanTypes, onSelectLoanType, selectedLoanType }) => 
 const loanTypeSelectorStyles = {
   container: {
     width: '100%', // Ensure it takes full width
-    padding: '20px',
     boxSizing: 'border-box',
   },
   heading: {

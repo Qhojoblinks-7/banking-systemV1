@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
 import './AccountSummary.css'; // Assuming you've kept the CSS filename
 import { Link } from 'react-router-dom';
-import { FaSearch, FaBell, FaArrowDown, FaArrowUp, FaEye, FaEllipsisH, FaHome, FaListAlt, FaUser, FaMoneyBillWave, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaBell, FaArrowDown, FaArrowUp, FaEye, FaEllipsisH, FaTimes } from 'react-icons/fa';
 import { FaMoneyBillWave as FaMoneyBillWaveSolid } from 'react-icons/fa';
+import BottomNavigationBar from './BottomNavigationBar';
 
 function AccountSummary({ customerId }) {
   const [accountDetails, setAccountDetails] = useState(null);
@@ -206,29 +207,10 @@ function AccountSummary({ customerId }) {
             <li className="market-item">No recent transactions.</li>
           )}
         </ul>
+        <BottomNavigationBar />
       </section>
 
-      {/* Bottom Navigation Bar (Bank Related) */}
-      <nav className="bottom-nav">
-        <Link to="/home" className="nav-item active">
-          <div className="nav-icon active-bg">
-            <FaHome />
-          </div>
-          <span className="nav-label">Home</span>
-        </Link>
-        <Link to="/accounts" className="nav-item">
-          <FaListAlt className="nav-icon" />
-          <span className="nav-label">Accounts</span>
-        </Link>
-        <Link to="/transactions" className="nav-item">
-          <FaMoneyBillWave className="nav-icon" />
-          <span className="nav-label">Transactions</span>
-        </Link>
-        <Link to="/profile" className="nav-item">
-          <FaUser className="nav-icon" />
-          <span className="nav-label">Profile</span>
-        </Link>
-      </nav>
+      
     </div>
   );
 }

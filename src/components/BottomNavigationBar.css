@@ -1,0 +1,46 @@
+/* BottomNavigationBar.css */
+
+.bottom-nav {
+    background-color: #191744;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0 12px 0; /* Adjust vertical padding */
+    border-top: 1px solid #2e2959;
+    z-index: 10;
+    max-width: 600px; /* Maintain max width */
+    margin: 0 auto;
+  }
+  
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #a7a2d1;
+    text-decoration: none;
+    font-size: 0.6em; /* Adjust font size */
+    flex-grow: 1;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .nav-icon {
+    font-size: 1.2em; /* Adjust icon size */
+    margin-bottom: 2px;
+  }
+  
+  .nav-item.active .nav-icon.active-bg {
+    background-color: #ffc107;
+    border-radius: 50%;
+    padding: 3px;
+    color: #191744;
+  }
+  
+  .nav-label {
+    
+  }

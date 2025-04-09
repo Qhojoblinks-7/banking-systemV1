@@ -1,0 +1,62 @@
+/* TransactionsPage.css */
+.transactions-page {
+    padding: 20px;
+    background-color: #191744; /* Dark background */
+    color: #fff; /* Light text */
+    min-height: calc(100vh - 50px); /* Adjust based on your header/footer */
+    box-sizing: border-box;
+  }
+  
+  .transactions-page h1 {
+    color: #ffc107; /* Accent color for heading */
+    margin-bottom: 15px;
+  }
+  
+  .transactions-page ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .transactions-page li {
+    margin-bottom: 8px;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #2e2959; /* Slightly lighter dark background for list items */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #4a3f87; /* Subtle separator */
+  }
+  
+  .transactions-page li:last-child {
+    border-bottom: none;
+  }
+  
+  .transaction-details {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+  
+  .transaction-date {
+    font-size: 0.8em;
+    color: #a7a2d1;
+    margin-bottom: 5px;
+  }
+  
+  .transaction-description {
+    font-weight: bold;
+    color: #e0e0e0;
+  }
+  
+  .transaction-amount {
+    font-weight: bold;
+    text-align: right;
+  }
+  
+  .transaction-amount.positive {
+    color: #4caf50; /* Green for deposits */
+  }
+  
+  .transaction-amount.negative {
+    color: #f44336; /* Red for withdrawals/payments */
+  }

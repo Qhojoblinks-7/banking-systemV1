@@ -1,0 +1,36 @@
+/* AccountsPage.css */
+.accounts-page {
+    padding: 20px;
+    background-color: #191744; /* Dark background */
+    color: #fff; /* Light text */
+    min-height: calc(100vh - 50px); /* Adjust based on your header/footer */
+    box-sizing: border-box;
+  }
+  
+  .accounts-page h1 {
+    color: #ffc107; /* Accent color for heading */
+    margin-bottom: 15px;
+  }
+  
+  .accounts-page ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .accounts-page li {
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #2e2959; /* Slightly lighter dark background for list items */
+    border-bottom: 1px solid #4a3f87; /* Subtle separator */
+  }
+  
+  .accounts-page li:last-child {
+    border-bottom: none;
+  }
+  
+  /* Style for account details (you might want more specific classes) */
+  .accounts-page li strong {
+    font-weight: bold;
+    color: #e0e0e0;
+  }

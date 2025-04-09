@@ -1,0 +1,21 @@
+/* HomePage.css */
+.home-page {
+    padding: 20px;
+    background-color: #191744; /* Dark background */
+    color: #fff; /* Light text */
+    min-height: calc(100vh - 50px); /* Adjust based on your header/footer if any */
+    box-sizing: border-box;
+  }
+  
+  .home-page h1 {
+    color: #ffc107; /* Accent color for heading */
+    margin-bottom: 15px;
+  }
+  
+  .home-page p {
+    line-height: 1.6;
+    margin-bottom: 10px;
+    opacity: 0.8;
+  }
+  
+  /* Add more specific styles for other elements on your home page */
