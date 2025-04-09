@@ -11,19 +11,25 @@ function AccountsPage() {
     const fetchAccounts = async () => {
       setLoading(true);
       setError(null);
+      console.log('Auth User on Accounts Page:', await supabase.auth.getUser()); // Debugging
+
       try {
         const { data: user } = await supabase.auth.getUser();
         if (user?.data?.user?.id) {
           const { data: accountsData, error: accountsError } = await supabase
-            .from('accounts') // Replace 'accounts' with your accounts table
-            .select('id, account_number, balance') // Select relevant fields
-            .eq('customer_id', user.data.user.id); // Assuming a 'customer_id' link
+            .from('accounts') // Replace 'accounts' with your table name
+            .select('id, account_number, balance, account_type') // Select necessary columns
+            .eq('customer_id', user.data.user.id) // Filter by user ID
+            .order('created_at', { ascending: false }); // Optional: Order by creation date
 
+          console.log('Raw accountsData:', accountsData); // Debugging
           if (accountsError) {
             setError('Error fetching accounts.');
             console.error('Error fetching accounts:', accountsError);
           } else if (accountsData) {
             setAccounts(accountsData);
+          } else {
+            setAccounts([]); // No accounts found for the user
           }
         }
       } catch (err) {
@@ -48,14 +54,29 @@ function AccountsPage() {
   return (
     <div className="accounts-page">
       <h1>Your Accounts</h1>
-      <ul>
-        {accounts.map((account) => (
-          <li key={account.id}>
-            Account Number: {account.account_number} - Balance: ${account.balance?.toFixed(2)}
-          </li>
-        ))}
-        {accounts.length === 0 && !loading && <p>No accounts found.</p>}
-      </ul>
+      {accounts.length > 0 ? (
+        <ul className="accounts-list">
+          {accounts.map((account) => (
+            <li key={account.id} className="account-item">
+              <div className="account-info">
+                <strong className="account-label">Account Number:</strong>
+                <span className="account-value">{account.account_number}</span>
+              </div>
+              <div className="account-info">
+                <strong className="account-label">Type:</strong>
+                <span className="account-value">{account.account_type}</span>
+              </div>
+              <div className="account-info balance">
+                <strong className="account-label">Balance:</strong>
+                <span className="account-value">${account.balance?.toFixed(2)}</span>
+              </div>
+              {/* Add more account details or actions here */}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="no-accounts">No accounts found for this user.</p>
+      )}
     </div>
   );
 }
