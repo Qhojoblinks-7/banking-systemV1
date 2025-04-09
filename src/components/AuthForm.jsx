@@ -323,7 +323,6 @@ const mobileOnlyStyles = {
     color: '#777',
     textAlign: 'center',
     minHeight: '100vh',
-    display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
