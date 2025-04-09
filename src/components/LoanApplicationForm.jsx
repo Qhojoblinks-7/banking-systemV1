@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
+import LoanTypeSelector from './LoanTypeSelector'; // Import the new component
 
 function LoanApplicationForm({ customerId }) {
   const [loanAmount, setLoanAmount] = useState('');
@@ -9,6 +10,7 @@ function LoanApplicationForm({ customerId }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [loanTypes, setLoanTypes] = useState([]);
   const [selectedLoanType, setSelectedLoanType] = useState('');
+  const [showLoanForm, setShowLoanForm] = useState(false);
 
   useEffect(() => {
     const fetchLoanTypes = async () => {
@@ -31,6 +33,11 @@ function LoanApplicationForm({ customerId }) {
 
     fetchLoanTypes();
   }, []);
+
+  const handleLoanTypeSelect = (loanTypeId) => {
+    setSelectedLoanType(loanTypeId);
+    setShowLoanForm(true); // Show the form after a loan type is selected
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -76,6 +83,7 @@ function LoanApplicationForm({ customerId }) {
         setLoanPurpose('');
         setLoanTerm('');
         setSelectedLoanType('');
+        setShowLoanForm(false); // Reset to loan type selection after submission
       }
     } catch (err) {
       setErrorMessage(`An unexpected error occurred: ${err.message}`);
@@ -94,30 +102,13 @@ function LoanApplicationForm({ customerId }) {
           <p style={mobileOnlyStyles.error}>{errorMessage}</p>
         )}
 
-        <h3 style={mobileOnlyStyles.sectionHeading}>Available Loan Types</h3>
-        <div style={mobileOnlyStyles.loanTypesContainer}>
-          {loanTypes.map((type) => (
-            <button
-              key={type.id}
-              style={{
-                ...mobileOnlyStyles.loanTypeButton,
-                backgroundColor: selectedLoanType === type.id ? '#007bff' : '#f0f0f0',
-                color: selectedLoanType === type.id ? 'white' : '#333',
-              }}
-              onClick={() => setSelectedLoanType(type.id)}
-            >
-              <span style={mobileOnlyStyles.loanTypeName}>{type.name}</span>
-              <p style={mobileOnlyStyles.loanTypeDescription}>{type.description}</p>
-              <p style={mobileOnlyStyles.loanTypeDetails}>
-                Interest: {type.min_interest_rate * 100}% - {type.max_interest_rate * 100}%, Term: {type.default_term_months} months
-              </p>
-            </button>
-          ))}
-          {loanTypes.length === 0 && !errorMessage && <p style={mobileOnlyStyles.loading}>Loading loan options...</p>}
-          {errorMessage && <p style={mobileOnlyStyles.error}>{errorMessage}</p>}
-        </div>
-
-        {selectedLoanType && (
+        {!showLoanForm ? (
+          <LoanTypeSelector
+            loanTypes={loanTypes}
+            onSelectLoanType={handleLoanTypeSelect}
+            selectedLoanType={selectedLoanType}
+          />
+        ) : (
           <form onSubmit={handleSubmit} style={mobileOnlyStyles.form}>
             <h3 style={mobileOnlyStyles.sectionHeading}>Apply for: {loanTypes.find((type) => type.id === selectedLoanType)?.name}</h3>
             <div style={mobileOnlyStyles.formGroup}>
@@ -174,112 +165,91 @@ function LoanApplicationForm({ customerId }) {
 
 const mobileOnlyStyles = {
   container: {
-    padding: '16px',
+    padding: '20px', // Increased padding for better mobile spacing
     margin: '0 auto',
-    maxWidth: '600px',
+    maxWidth: '100%', // Take full width
     backgroundColor: '#fff',
     textAlign: 'center',
+    boxSizing: 'border-box', // Ensure padding doesn't add to width
   },
   heading: {
-    fontSize: '1.8em',
-    marginBottom: '20px',
+    fontSize: '2em', // Larger heading for mobile
+    marginBottom: '25px',
     color: '#333',
     textAlign: 'center',
   },
   sectionHeading: {
-    fontSize: '1.2em',
-    marginTop: '25px',
-    marginBottom: '10px',
+    fontSize: '1.4em',
+    marginTop: '30px',
+    marginBottom: '15px',
     color: '#555',
-  },
-  loanTypesContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '10px',
-    marginBottom: '20px',
-  },
-  loanTypeButton: {
-    padding: '15px',
-    borderRadius: '8px',
-    border: '1px solid #ddd',
-    cursor: 'pointer',
-    textAlign: 'left',
-    width: '100%',
-  },
-  loanTypeName: {
-    fontWeight: 'bold',
-    fontSize: '1em',
-    color: '#333',
-  },
-  loanTypeDescription: {
-    fontSize: '0.9em',
-    color: '#777',
-    marginTop: '5px',
-    marginBottom: '5px',
-  },
-  loanTypeDetails: {
-    fontSize: '0.8em',
-    color: '#555',
+    textAlign: 'center',
   },
   form: {
-    marginTop: '20px',
-    paddingTop: '20px',
+    marginTop: '25px',
+    paddingTop: '25px',
     borderTop: '1px solid #eee',
+    width: '100%', // Full width for form
+    boxSizing: 'border-box',
   },
   formGroup: {
-    marginBottom: '15px',
+    marginBottom: '20px',
+    width: '100%', // Full width for form groups
+    boxSizing: 'border-box',
   },
   label: {
     display: 'block',
-    marginBottom: '8px',
+    marginBottom: '10px',
     fontWeight: 'bold',
     color: '#555',
-    fontSize: '1em',
+    fontSize: '1.1em',
+    textAlign: 'left',
   },
   input: {
     width: '100%',
-    padding: '12px',
-    borderRadius: '6px',
+    padding: '15px',
+    borderRadius: '8px',
     border: '1px solid #ddd',
     boxSizing: 'border-box',
-    fontSize: '1em',
+    fontSize: '1.1em',
   },
   textarea: {
     width: '100%',
-    padding: '12px',
-    borderRadius: '6px',
+    padding: '15px',
+    borderRadius: '8px',
     border: '1px solid #ddd',
     boxSizing: 'border-box',
-    minHeight: '100px',
-    fontSize: '1em',
+    minHeight: '120px',
+    fontSize: '1.1em',
   },
   button: {
     backgroundColor: '#007bff',
     color: 'white',
-    padding: '15px 20px',
-    borderRadius: '8px',
+    padding: '18px 25px',
+    borderRadius: '10px',
     border: 'none',
     cursor: 'pointer',
-    fontSize: '1.1em',
+    fontSize: '1.2em',
     width: '100%',
-    marginTop: '20px',
+    marginTop: '30px',
+    boxSizing: 'border-box',
   },
   success: {
     color: 'green',
-    marginTop: '15px',
+    marginTop: '20px',
     textAlign: 'center',
+    fontSize: '1.1em',
   },
   error: {
     color: 'red',
-    marginTop: '15px',
+    marginTop: '20px',
     textAlign: 'center',
+    fontSize: '1.1em',
   },
-  loading: {
-    textAlign: 'center',
-    marginTop: '15px',
-    color: '#777',
+  mobileContent: {
+    padding: '20px', // Add padding to the mobile content as well
+    boxSizing: 'border-box',
   },
-  mobileContent: {},
   desktopBlocker: {
     display: 'none',
     padding: '20px',
