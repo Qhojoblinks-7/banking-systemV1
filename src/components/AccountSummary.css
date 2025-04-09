@@ -1,247 +1,378 @@
-.account-summary-container {
-    font-family: sans-serif;
+/* AccountSummaryNew.css - Mobile First Styles */
+
+/* Base styles for mobile */
+.account-summary-new-container {
+    background-color: #191744;
+    min-height: calc(var(--vh, 1vh) * 100);
     padding: 20px;
-    background-color: #f4f6f8; /* Light grey background */
-    min-height: 100vh; /* Ensure it takes full viewport height */
+    box-sizing: border-box;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
   }
   
-  /* Header */
-  .header {
+  :root {
+    --vh: 100%;
+  }
+  
+  /* Top Navigation Bar */
+  .top-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    padding: 15px 0;
+    margin-bottom: 30px;
   }
   
-  .greeting h1 {
-    font-size: 1.8em;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  .greeting .growth {
-    color: #5cb85c; /* Green for growth */
-    font-size: 0.9em;
-  }
-  
-  .notification-button {
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    color: #777;
-    cursor: pointer;
-  }
-  
-  /* Bank Card */
-  .bank-card {
-    background: linear-gradient(135deg, #4a148c, #2196f3); /* Purple to Blue gradient */
-    color: white;
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .balance .label {
-    font-size: 0.8em;
-    opacity: 0.8;
-    margin-bottom: 5px;
-  }
-  
-  .balance .amount {
-    font-size: 2em;
-    margin: 0;
-  }
-  
-  .card-details {
+  .user-info {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
   }
   
-  .card-details .expiry {
-    font-size: 0.9em;
-    opacity: 0.8;
+  .profile-pic-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4a3f87;
+    margin-right: 10px;
   }
   
-  .card-details .card-number {
+  .greeting {
+    font-size: 1.1em;
+    color: #e0e0e0;
+  }
+  
+  .nav-icons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .icon-circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid #4a3f87;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #e0e0e0;
     font-size: 1em;
   }
   
-  .card-details .visa {
-    font-size: 1.5em;
-    font-weight: bold;
+  /* Balance Display */
+  .balance-display {
+    text-align: left;
+    margin-bottom: 40px;
   }
   
-  .add-money-button {
-    background-color: white;
-    color: #2196f3;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    margin-top: 20px;
-    cursor: pointer;
+  .balance-label {
+    font-size: 0.9em;
+    color: #a7a2d1;
+    margin-bottom: 5px;
+  }
+  
+  .balance-amount {
+    font-size: 2.8em;
     font-weight: bold;
+    color: #fff;
   }
   
   /* Quick Actions */
-  .quick-actions {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin-bottom: 25px;
-    text-align: center;
-  }
-  
-  .quick-actions .action {
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  }
-  
-  .quick-actions .icon {
-    font-size: 1.8em;
-    margin-bottom: 5px;
-    color: #2196f3;
-  }
-  
-  .quick-actions .down-arrow {
-    color: #d9534f; /* Red */
-  }
-  
-  .quick-actions .up-arrow {
-    color: #5cb85c; /* Green */
-  }
-  
-  .quick-actions .document {
-    color: #f0ad4e; /* Orange */
-  }
-  
-  .quick-actions .more .icon {
-    color: #777;
-  }
-  
-  .quick-actions p {
-    margin: 0;
-    font-size: 0.9em;
-    color: #555;
-  }
-  
-  /* Transactions */
-  .transactions-section {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  }
-  
-  .transactions-header {
+  .quick-actions-new {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+    gap: 15px;
+    margin-bottom: 40px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   
-  .transactions-header h2 {
-    font-size: 1.5em;
-    color: #333;
-    margin: 0;
-  }
-  
-  .transactions-header .see-all-button {
-    background: none;
+  .quick-action-button {
+    background-color: #2e2959;
+    color: #fff;
     border: none;
-    color: #2196f3;
-    cursor: pointer;
+    border-radius: 20px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95em;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  
+  .quick-action-icon {
+    font-size: 1.2em;
+  }
+  
+  .quick-action-text {
+    white-space: nowrap;
+  }
+  
+  /* Smart Investing Promotion */
+  .smart-investing-banner {
+    background: linear-gradient(135deg, #4a3f87 0%, #2e2959 100%);
+    color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .sparkles {
+    font-size: 1.5em;
+    position: absolute;
+    opacity: 0.7;
+  }
+  
+  .sparkles:first-child {
+    top: 10px;
+    left: 10px;
+  }
+  
+  .sparkles.right {
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .banner-title {
+    font-size: 1.3em;
+    margin-bottom: 8px;
     font-weight: bold;
   }
   
-  .transactions-list {
+  .banner-subtitle {
+    font-size: 0.9em;
+    opacity: 0.8;
+  }
+  
+  .close-banner {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2em;
+    cursor: pointer;
+    opacity: 0.6;
+  }
+  
+  /* Market Section (Repurposed for Transactions) */
+  .market-section {
+    margin-bottom: 70px;
+  }
+  
+  .market-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .market-title {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #fff;
+    margin: 0;
+  }
+  
+  .view-all-link {
+    color: #a7a2d1;
+    font-size: 0.9em;
+    text-decoration: none;
+  }
+  
+  .market-list {
     list-style: none;
     padding: 0;
   }
   
-  .transaction-item {
+  .market-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+    border-bottom: 1px solid #2e2959;
   }
   
-  .transaction-item:last-child {
+  .market-item:last-child {
     border-bottom: none;
   }
   
-  .transaction-item .icon {
+  .market-item-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .crypto-icon-bg {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 15px;
-    color: white;
-    font-size: 1.2em;
+    color: #fff;
+    font-size: 1.3em;
   }
   
-  .transaction-item .fund-arrow {
-    background-color: #5cb85c; /* Green */
+  .crypto-icon-bg.btc {
+    background-color: #f7931a;
   }
   
-  .transaction-item .withdraw-arrow {
-    background-color: #d9534f; /* Red */
+  .crypto-icon-bg.eth {
+    background-color: #627eea;
   }
   
-  .transaction-item .received-arrow {
-    background-color: #5bc0de; /* Light Blue */
+  .crypto-icon-bg.transaction-icon {
+    background-color: transparent;
   }
   
-  .transaction-details {
-    flex-grow: 1;
+  .crypto-icon-bg.transaction-icon svg {
+    font-size: 1.5em;
   }
   
-  .transaction-details .type {
+  .crypto-info {
+    text-align: left;
+  }
+  
+  .crypto-name {
     font-weight: bold;
-    color: #333;
+    font-size: 1em;
+    color: #fff;
     margin-bottom: 3px;
   }
   
-  .transaction-details .date-ref {
+  .crypto-symbol {
     font-size: 0.85em;
-    color: #777;
+    color: #a7a2d1;
   }
   
-  .transaction-amount {
+  .market-item-right {
+    text-align: right;
+  }
+  
+  .crypto-price {
+    font-weight: bold;
+    font-size: 1em;
+    color: #fff;
+    margin-bottom: 3px;
+  }
+  
+  .crypto-change {
+    font-size: 0.85em;
+  }
+  
+  .crypto-change.green {
+    color: #4caf50;
+  }
+  
+  .crypto-change.red {
+    color: #f44336;
+  }
+  
+  /* Bottom Navigation Bar */
+  .bottom-nav {
+    background-color: #191744;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 20px 0;
+    border-top: 1px solid #2e2959;
+    z-index: 10;
+  }
+  
+  .nav-item {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-  }
-  
-  .transaction-amount .amount {
-    font-weight: bold;
-    margin-bottom: 3px;
-  }
-  
-  .transaction-amount .credit {
-    color: #5cb85c; /* Green */
-  }
-  
-  .transaction-amount .debit {
-    color: #d9534f; /* Red */
-  }
-  
-  .transaction-amount .status-button {
-    background-color: #f0f0f0;
-    color: #555;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
+    align-items: center;
+    color: #a7a2d1;
+    text-decoration: none;
     font-size: 0.8em;
-    cursor: pointer;
   }
   
-  .transaction-amount .status-button:hover {
-    background-color: #e0e0e0;
+  .nav-icon {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+  }
+  
+  .nav-item.active {
+    color: #fff;
+  }
+  
+  .nav-item.active .nav-icon {
+    color: #fff;
+  }
+  
+  .nav-item.active .nav-icon.active-bg {
+    background-color: #ffc107;
+    border-radius: 50%;
+    padding: 5px;
+    color: #191744;
+  }
+  
+  .nav-item.active .nav-label {
+    color: #ffc107;
+  }
+  
+  /* Desktop Blocking Styles */
+@media (min-width: 768px) {
+    .account-summary-new-container {
+      display: none !important; /* Hide on desktop */
+    }
+  
+    body {
+      background-color: #191744; /* Match background */
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: sans-serif;
+      text-align: center;
+    }
+  
+    body::before {
+      content: "This application is designed for mobile devices only. Please access it on a smartphone.";
+      font-size: 1.5em;
+      padding: 20px;
+      border: 2px solid #fff;
+      border-radius: 10px;
+    }
+  }
+  
+  /* Mobile-Only Message Style */
+  .mobile-only-message {
+    background-color: #191744;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    font-family: sans-serif;
+  }
+    .mobile-only-message::before {
+        content: "This application is designed for mobile devices only. Please access it on a smartphone.";
+        font-size: 1.5em;
+        padding: 20px;
+        border: 2px solid #fff;
+        border-radius: 10px;
+    }  
+  
+  /* Error and Loading states (can be within or outside media queries) */
+  .account-summary-new-container.error {
+    color: #f44336;
+    text-align: center;
+    padding: 20px;
   }

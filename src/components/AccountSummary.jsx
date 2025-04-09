@@ -1,22 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import supabase from '../supabaseClient';
-import './AccountSummary.css'; // Import the CSS file
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import './AccountSummary.css'; // Assuming you've kept the CSS filename
+import { Link } from 'react-router-dom';
+import { FaSearch, FaBell, FaArrowDown, FaArrowUp, FaEye, FaEllipsisH, FaHome, FaListAlt, FaUser, FaMoneyBillWave, FaTimes } from 'react-icons/fa';
+import { FaMoneyBillWave as FaMoneyBillWaveSolid } from 'react-icons/fa';
 
 function AccountSummary({ customerId }) {
   const [accountDetails, setAccountDetails] = useState(null);
   const [recentTransactions, setRecentTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [userName, setUserName] = useState(''); // State for user's name
+  const [userName, setUserName] = useState('User');
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Check if the user agent indicates a mobile device
+    const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+    setIsMobile(mobileRegex.test(navigator.userAgent));
+
+    // Function to set viewport height for mobile
+    function setViewportHeight() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    // Set initial viewport height
+    if (isMobile) {
+      setViewportHeight();
+      window.addEventListener('resize', setViewportHeight);
+      return () => {
+        window.removeEventListener('resize', setViewportHeight);
+      };
+    }
+  }, [isMobile]); // Re-run if isMobile changes (though unlikely during a session)
+
+  useEffect(() => {
+    if (!isMobile) {
+      return; // Don't fetch data if not on a mobile device
+    }
+
     const fetchAccountData = async () => {
+      if (!customerId) {
+        setLoading(false);
+        return;
+      }
+
       setLoading(true);
       setError(null);
 
       try {
-        // Fetch customer details to get the user's name
+        // Fetch customer details for name
         const { data: customerData, error: customerError } = await supabase
           .from('customers')
           .select('first_name')
@@ -24,215 +57,180 @@ function AccountSummary({ customerId }) {
           .single();
 
         if (customerError) {
-          setError(`Error fetching customer details: ${customerError.message}`);
-          console.error('Customer Fetch Error:', customerError);
-        } else if (customerData) {
-          setUserName(customerData.first_name || 'User'); // Set username or default
+          console.error('Error fetching customer:', customerError);
+        } else if (customerData?.first_name) {
+          setUserName(customerData.first_name);
         }
 
         // Fetch account details
         const { data: accountData, error: accountError } = await supabase
           .from('accounts')
-          .select('*')
+          .select('id, balance')
           .eq('customer_id', customerId)
-          .single(); // Assuming one primary account per customer
+          .single();
 
         if (accountError) {
-          setError(`Error fetching account details: ${accountError.message}`);
-          console.error('Account Fetch Error:', accountError);
+          console.error('Error fetching account:', accountError);
         } else if (accountData) {
           setAccountDetails(accountData);
 
-          // Fetch recent transactions (e.g., last 5)
-          const { data: transactionsData, error: transactionsError } = await supabase
-            .from('transactions')
-            .select('*')
-            .eq('account_id', accountData.id)
-            .order('transaction_date', { ascending: false })
-            .limit(5);
+          // Fetch recent transactions ONLY if accountDetails.id is available
+          if (accountData.id) {
+            const { data: transactionsData, error: transactionsError } = await supabase
+              .from('transactions')
+              .select('id, transaction_type, amount, transaction_date, description')
+              .eq('account_id', accountData.id)
+              .order('transaction_date', { ascending: false })
+              .limit(5);
 
-          if (transactionsError) {
-            setError(`Error fetching transactions: ${transactionsError.message}`);
-            console.error('Transaction Fetch Error:', transactionsError);
-          } else if (transactionsData) {
-            setRecentTransactions(transactionsData);
+            if (transactionsError) {
+              console.error('Error fetching transactions:', transactionsError);
+            } else if (transactionsData) {
+              setRecentTransactions(transactionsData);
+            }
           }
         } else {
-          setError('No account details found for this customer.');
+          setError('Failed to load account data.');
         }
-
       } catch (err) {
-        setError(`An unexpected error occurred: ${err.message}`);
-        console.error('Unexpected Error:', err);
+        console.error('Unexpected error:', err);
+        setError('Failed to load account data.');
       } finally {
         setLoading(false);
       }
     };
 
-    if (customerId) {
-      fetchAccountData();
-    }
-  }, [customerId]);
+    fetchAccountData();
+  }, [customerId, isMobile]); // Re-run data fetch if customerId or isMobile changes
+
+  if (!isMobile) {
+    return (
+      <div className="mobile-only-message">
+        This application is designed for mobile devices only. Please access it on a smartphone.
+      </div>
+    );
+  }
 
   if (loading) {
-    return <div className="account-summary-container">Loading account summary...</div>;
+    return <div className="account-summary-new-container">Loading...</div>;
   }
 
   if (error) {
-    return <div className="account-summary-container">Error loading account summary: {error}</div>;
+    return <div className="account-summary-new-container error">{error}</div>;
   }
-
-  if (!accountDetails) {
-    return <div className="account-summary-container">No account information available.</div>;
-  }
-
-  const lastMonthGrowth = '+3.50%'; // Placeholder - you'd likely calculate this based on data
-
-  // Function to format card number (basic masking)
-  const formatCardNumber = (number) => {
-    if (number && number.length === 16) {
-      return `${number.substring(0, 4)} **** **** ${number.substring(12)}`;
-    }
-    return '**** **** **** ****';
-  };
-
-  const cardNumber = accountDetails.account_number ? formatCardNumber(accountDetails.account_number) : '**** **** **** ****';
-  const currentDate = new Date().toLocaleDateString('en-GH'); // Get current date in Ghana format
-  const cediBalance = accountDetails.balance ? accountDetails.balance.toFixed(2) : '0.00';
-  const accountType = accountDetails.account_type || 'Savings'; // Default to 'Savings' if not available
 
   return (
-    <div style={mobileOnlyStyles.container} className="account-summary-container">
-      <div style={mobileOnlyStyles.mobileContent}>
-        {/* Header */}
-        <div className="header">
-          <div className="greeting">
-            <h1>Hi, {userName}!</h1>
-            <p className="growth">{lastMonthGrowth} from last month</p>
+    <div className="account-summary-new-container">
+      {/* Top Navigation Bar */}
+      <nav className="top-nav">
+        <div className="user-info">
+          <div className="profile-pic-placeholder"></div> {/* Replace with actual image */}
+          <span className="greeting">Hi, {userName}.</span>
+        </div>
+        <div className="nav-icons">
+          <div className="icon-circle">
+            <FaSearch />
           </div>
-          <button className="notification-button">
-            {/* You might use an icon here */}🔔
-          </button>
-        </div>
-
-        {/* Bank Card */}
-        <div className="bank-card">
-          <div className="balance">
-            <p className="label">Cedi Balance</p>
-            <h2 className="amount">₵{cediBalance}</h2>
+          <div className="icon-circle">
+            <FaBell />
           </div>
-          <div className="card-details">
-            <p className="expiry">{currentDate}</p>
-            <p className="card-number">{cardNumber}</p>
-            <p className="account-type">{accountType}</p>
-          </div>
-          <button className="add-money-button">Add Money</button>
         </div>
+      </nav>
 
-        {/* Quick Actions */}
-        <div className="quick-actions">
-          {/* ... (same as before) */}
-        </div>
-
-        {/* Loan Application Button */}
-        <div className="loan-application-button">
-          <Link to="/apply-loan"> {/* Assuming you'll create a route for /apply-loan */}
-            <button style={mobileOnlyStyles.loanButton}>Apply for a Loan</button>
-          </Link>
-        </div>
-
-        {/* Transactions */}
-        <div className="transactions-section">
-          <div className="transactions-header">
-            <h2>Transactions</h2>
-            <button className="see-all-button">See All</button>
-          </div>
-          <ul className="transactions-list">
-            {recentTransactions.map((transaction) => (
-              <li key={transaction.id} className="transaction-item">
-                <div className={`icon ${transaction.transaction_type ? transaction.transaction_type.toLowerCase() : 'generic'}-arrow`}>
-                  {transaction.transaction_type === 'Withdrawal' ? '↑' : transaction.transaction_type === 'Deposit' ? '↓' : '₵'}
-                </div>
-                <div className="transaction-details">
-                  <p className="type">{transaction.description || transaction.transaction_type}</p>
-                  <p className="date-ref">{new Date(transaction.transaction_date).toLocaleDateString('en-GH')} - {transaction.id}</p>
-                </div>
-                <div className="transaction-amount">
-                  <p className={`amount ${transaction.amount > 0 ? 'credit' : 'debit'}`}>
-                    {transaction.amount > 0 ? '+' : '-'} ₵{Math.abs(transaction.amount).toFixed(2)}
-                  </p>
-                  <button className="status-button">{transaction.amount > 0 ? 'Deposit' : 'Send'}</button>
-                </div>
-              </li>
-            ))}
-            {recentTransactions.length === 0 && !loading && <li className="transaction-item">No recent transactions.</li>}
-          </ul>
-        </div>
+      {/* Balance Display */}
+      <div className="balance-display">
+        <p className="balance-label">Your Balance</p>
+        <h1 className="balance-amount">${accountDetails?.balance ? accountDetails.balance.toFixed(2) : '0.00'}</h1>
       </div>
-      <div style={mobileOnlyStyles.desktopBlocker}>
-        <p>This application is designed for mobile devices only.</p>
-        <p>Please access it on a smartphone or tablet.</p>
+
+      {/* Quick Actions (Bank Related) */}
+      <div className="quick-actions-new">
+        <button className="quick-action-button fund">
+          <FaArrowDown className="quick-action-icon" />
+          <span className="quick-action-text">Fund</span>
+        </button>
+        <button className="quick-action-button withdraw">
+          <FaArrowUp className="quick-action-icon" />
+          <span className="quick-action-text">Withdraw</span>
+        </button>
+        <button className="quick-action-button details">
+          <FaEye className="quick-action-icon" />
+          <span className="quick-action-text">Details</span>
+        </button>
+        <button className="quick-action-button more">
+          <FaEllipsisH className="quick-action-icon" />
+          <span className="quick-action-text">More</span>
+        </button>
       </div>
+
+      {/* Bank Promotion Banner (Adapt as needed) */}
+      <div className="smart-investing-banner">
+        <div className="sparkles">✨</div>
+        <h2 className="banner-title">Your Bank at Your Fingertips!</h2>
+        <p className="banner-subtitle">Manage your finances with ease and security.</p>
+        <button className="close-banner">
+          <FaTimes />
+        </button>
+        <div className="sparkles right">✨</div>
+      </div>
+
+      {/* Recent Transactions (Styled like Market Data) */}
+      <section className="market-section">
+        <div className="market-header">
+          <h2 className="market-title">Recent Transactions</h2>
+          <Link to="/transactions" className="view-all-link">View all</Link>
+        </div>
+        <ul className="market-list">
+          {recentTransactions.map((transaction) => (
+            <li key={transaction.id} className="market-item">
+              <div className="market-item-left">
+                <div className={`crypto-icon-bg transaction-icon`}>
+                  {transaction.transaction_type === 'deposit' ? <FaArrowDown color="#4caf50" /> : transaction.transaction_type === 'withdrawal' ? <FaArrowUp color="#f44336" /> : <FaMoneyBillWaveSolid color="#1e88e5" />}
+                </div>
+                <div className="crypto-info">
+                  <p className="crypto-name">{transaction.description || transaction.transaction_type}</p>
+                  <p className="crypto-symbol">{new Date(transaction.transaction_date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</p>
+                </div>
+              </div>
+              <div className="market-item-right">
+                <p className={`crypto-price ${transaction.amount > 0 ? 'credit' : 'debit'}`}>
+                  ${transaction.amount?.toFixed(2) || '0.00'}
+                </p>
+                <p className={`crypto-change ${transaction.amount > 0 ? 'green' : 'red'}`}>
+                  {transaction.amount > 0 ? '+' : '-'}{Math.abs(transaction.amount)?.toFixed(2) || '0.00'}
+                </p>
+              </div>
+            </li>
+          ))}
+          {recentTransactions.length === 0 && !loading && (
+            <li className="market-item">No recent transactions.</li>
+          )}
+        </ul>
+      </section>
+
+      {/* Bottom Navigation Bar (Bank Related) */}
+      <nav className="bottom-nav">
+        <Link to="/home" className="nav-item active">
+          <div className="nav-icon active-bg">
+            <FaHome />
+          </div>
+          <span className="nav-label">Home</span>
+        </Link>
+        <Link to="/accounts" className="nav-item">
+          <FaListAlt className="nav-icon" />
+          <span className="nav-label">Accounts</span>
+        </Link>
+        <Link to="/transactions" className="nav-item">
+          <FaMoneyBillWave className="nav-icon" />
+          <span className="nav-label">Transactions</span>
+        </Link>
+        <Link to="/profile" className="nav-item">
+          <FaUser className="nav-icon" />
+          <span className="nav-label">Profile</span>
+        </Link>
+      </nav>
     </div>
   );
 }
-
-const mobileOnlyStyles = {
-  container: {
-    // Base styles for mobile
-    padding: '16px',
-    margin: '0 auto',
-    maxWidth: '600px',
-    backgroundColor: '#fff',
-    textAlign: 'center',
-  },
-  mobileContent: {
-    // Content visible on mobile
-  },
-  desktopBlocker: {
-    display: 'none', // Initially hidden
-    padding: '20px',
-    backgroundColor: '#f8f8f8',
-    border: '1px solid #eee',
-    borderRadius: '8px',
-    marginTop: '20px',
-    color: '#777',
-  },
-  loanButton: {
-    backgroundColor: '#28a745', // Green color for apply button
-    color: 'white',
-    padding: '10px 15px',
-    borderRadius: '4px',
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: '1em',
-    marginTop: '20px',
-  },
-};
-
-// Media query to hide mobile content and show blocker on larger screens
-const mediaQuery = `@media (min-width: 768px) {
-  .account-summary-container > div:first-child { /* Target mobileContent */
-    display: none !important;
-  }
-  .account-summary-container > div:last-child { /* Target desktopBlocker */
-    display: flex !important;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Make it take up the whole viewport */
-  }
-  .account-summary-container {
-    padding: 0; /* Remove container padding on desktop */
-    max-width: none; /* Remove max width on desktop */
-    margin: 0; /* Remove container margin on desktop */
-    background-color: #f8f8f8; /* Set background color for the blocker */
-  }
-}`;
-
-// Inject the media query into the document head
-const styleElement = document.createElement('style');
-styleElement.textContent = mediaQuery;
-document.head.appendChild(styleElement);
 
 export default AccountSummary;
