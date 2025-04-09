@@ -1,0 +1,247 @@
+.account-summary-container {
+    font-family: sans-serif;
+    padding: 20px;
+    background-color: #f4f6f8; /* Light grey background */
+    min-height: 100vh; /* Ensure it takes full viewport height */
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .greeting h1 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .greeting .growth {
+    color: #5cb85c; /* Green for growth */
+    font-size: 0.9em;
+  }
+  
+  .notification-button {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #777;
+    cursor: pointer;
+  }
+  
+  /* Bank Card */
+  .bank-card {
+    background: linear-gradient(135deg, #4a148c, #2196f3); /* Purple to Blue gradient */
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .balance .label {
+    font-size: 0.8em;
+    opacity: 0.8;
+    margin-bottom: 5px;
+  }
+  
+  .balance .amount {
+    font-size: 2em;
+    margin: 0;
+  }
+  
+  .card-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .card-details .expiry {
+    font-size: 0.9em;
+    opacity: 0.8;
+  }
+  
+  .card-details .card-number {
+    font-size: 1em;
+  }
+  
+  .card-details .visa {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .add-money-button {
+    background-color: white;
+    color: #2196f3;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  /* Quick Actions */
+  .quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  
+  .quick-actions .action {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .quick-actions .icon {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+    color: #2196f3;
+  }
+  
+  .quick-actions .down-arrow {
+    color: #d9534f; /* Red */
+  }
+  
+  .quick-actions .up-arrow {
+    color: #5cb85c; /* Green */
+  }
+  
+  .quick-actions .document {
+    color: #f0ad4e; /* Orange */
+  }
+  
+  .quick-actions .more .icon {
+    color: #777;
+  }
+  
+  .quick-actions p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #555;
+  }
+  
+  /* Transactions */
+  .transactions-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .transactions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .transactions-header h2 {
+    font-size: 1.5em;
+    color: #333;
+    margin: 0;
+  }
+  
+  .transactions-header .see-all-button {
+    background: none;
+    border: none;
+    color: #2196f3;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .transactions-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .transaction-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .transaction-item:last-child {
+    border-bottom: none;
+  }
+  
+  .transaction-item .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+    color: white;
+    font-size: 1.2em;
+  }
+  
+  .transaction-item .fund-arrow {
+    background-color: #5cb85c; /* Green */
+  }
+  
+  .transaction-item .withdraw-arrow {
+    background-color: #d9534f; /* Red */
+  }
+  
+  .transaction-item .received-arrow {
+    background-color: #5bc0de; /* Light Blue */
+  }
+  
+  .transaction-details {
+    flex-grow: 1;
+  }
+  
+  .transaction-details .type {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 3px;
+  }
+  
+  .transaction-details .date-ref {
+    font-size: 0.85em;
+    color: #777;
+  }
+  
+  .transaction-amount {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .transaction-amount .amount {
+    font-weight: bold;
+    margin-bottom: 3px;
+  }
+  
+  .transaction-amount .credit {
+    color: #5cb85c; /* Green */
+  }
+  
+  .transaction-amount .debit {
+    color: #d9534f; /* Red */
+  }
+  
+  .transaction-amount .status-button {
+    background-color: #f0f0f0;
+    color: #555;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 0.8em;
+    cursor: pointer;
+  }
+  
+  .transaction-amount .status-button:hover {
+    background-color: #e0e0e0;
+  }
